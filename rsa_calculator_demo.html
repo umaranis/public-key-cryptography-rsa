@@ -17,11 +17,14 @@
     <meta name="twitter:creator" content="@umaranis">
     <link rel="icon" href="https://i0.wp.com/umaranis.com/wp-content/uploads/2020/12/cropped-android-chrome-384x384-1.png?fit=32%2C32&amp;ssl=1" sizes="32x32">
     <link rel="icon" href="https://i0.wp.com/umaranis.com/wp-content/uploads/2020/12/cropped-android-chrome-384x384-1.png?fit=192%2C192&amp;ssl=1" sizes="192x192">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
         header {
             color: blue;
-            background-color: aliceblue
+            background-color: aliceblue;
+            padding:10px;
         }
 
         #clear {
@@ -62,6 +65,10 @@
             margin: 10px 10px 30px 10px;
             padding: 10px
         }
+
+        .input-in-col {
+            width: 100px;
+        }
     </style>
 
     <!--[if lt IE 9]>
@@ -81,57 +88,63 @@
     <br/>
     <article>
         <div>Purpose of the page is to demonstrate how RSA algorithm works - generates keys, encrypts message and decrypts it.</div>
-        <div><a href="https://umaranis.com/2018/08/10/how-public-key-cryptography-works-rsa-algorithm/">See the related blog post</a> for more explanation.</div>
+        <div><p><a href="https://umaranis.com/2018/08/10/how-public-key-cryptography-works-rsa-algorithm/">See the related blog post</a> for more explanation.</p></div>
     </article>
-    <article id="step1">
+    <article>
         <h1>Step # 1: Generate Private and Public keys</h1>
         <p>Enter two prime numbers below (P, Q), then press calculate:</p>
-        <p>P: <input type="text" id="p"> &nbsp; Q: <input type="text" id="q"> &nbsp; &nbsp; &nbsp;<span class="help">Some prime numbers: 11, 13, 17, 19, 23, 29, 191, 193, 197, 199, etc. </span></p>
+        <div>
+            <div><p>P: <input type="text" id="p"></p></div>
+            <div><p>Q: <input type="text" id="q"></p></div> 
+            <div><span class="help">Some prime numbers: 11, 13, 17, 19, 23, 29, 191, 193, 197, 199, etc. </span></div>
+        </div>
         <p><input type="button" value="Calculate" onclick="calculate()"/></p>
         <hr/>
-        <table>
-            <thead>
-                <tr>
-                    <th>Variable</th>
-                    <th>Value</th>
-                    <th>Name</th>
-                    <th>Formula</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>N</td>
-                    <td><input type="text" id="n" readonly/></td>
-                    <td>modulus</td>
-                    <td>N: P * Q</td>
-                    <td class="help">Product of 2 prime numbers</td>
-                </tr>
-                <tr>
-                    <td>L</td>
-                    <td><input type="text" id="l" readonly/></td>
-                    <td>length</td>
-                    <td>L: (p - 1) * (q - 1)</td>
-                    <td class="help">Another way of calculating 'L' is to list of numbers from 1 to N, remove numbers which have common factor which
-                            N and count the remaining numbers.</td>
-                </tr>
-                <tr>
-                    <td>E</td>
-                    <td><input type="text" id="e" onchange="encryptorChanged()"/></td>
-                    <td>encryption key</td>
-                    <td></td>
-                    <td class="help">Find a number between 1 and L that is <a href="https://en.wikipedia.org/wiki/Coprime_integers" target="_blank">coprime</a> with L and N.<span id="enKeyListSpan"></span></td>
-                </tr>
-                <tr>
-                    <td>D</td>
-                    <td><input type="text" id="d" onchange="decryptorChanged()"/></td>
-                    <td>decryption key</td>
-                    <td>D * E mod L = 1</td>
-                    <td class="help">Remainder of the product of D and E when divided by L should be 1 (D * E % L = 1)<span id="deKeyListSpan"></span></td>
-                </tr>
-            </tbody>            
-        </table>
-        <hr/>
+        <div style="overflow: auto;">
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Value</th>
+                        <th>Name</th>
+                        <th>Formula</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>N</td>
+                        <td><input type="text" id="n" class="input-in-col" readonly/></td>
+                        <td>modulus</td>
+                        <td>N: P * Q</td>
+                        <td class="help">Product of 2 prime numbers</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td><input type="text" id="l" class="input-in-col" readonly/></td>
+                        <td>length</td>
+                        <td>L: (p - 1) * (q - 1)</td>
+                        <td class="help">Another way of calculating 'L' is to list of numbers from 1 to N, remove numbers which have common factor which
+                                N and count the remaining numbers.</td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td><input type="text" id="e" class="input-in-col" onchange="encryptorChanged()"/></td>
+                        <td>encryption key</td>
+                        <td></td>
+                        <td class="help">Find a number between 1 and L that is <a href="https://en.wikipedia.org/wiki/Coprime_integers" target="_blank">coprime</a> with L and N.<span id="enKeyListSpan"></span></td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td><input type="text" id="d" class="input-in-col" onchange="decryptorChanged()"/></td>
+                        <td>decryption key</td>
+                        <td>D * E mod L = 1</td>
+                        <td class="help">Remainder of the product of D and E when divided by L should be 1 (D * E % L = 1)<span id="deKeyListSpan"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>        
         <section>
             <div class="key">
                 <span class="key-label">Private Key (E, N): </span><span id="private-key" class="key-value"></span>
@@ -141,7 +154,7 @@
             </div>
         </section>
     </article>
-    <article id="step2">
+    <article>
         <h1>Step # 2: Encrypt a message</h1>
         <p>Enter a message to encrypt: <input type="text" id="message"/></p>
         <p><input type="button" value="Encrypt" onclick="encrypt()"/></p>
@@ -154,7 +167,7 @@
             </div>                
         </section>
     </article>
-    <article id="step2">
+    <article>
         <h1>Step # 3: Decrypt a message</h1>
         <p>Enter a encrypted message (cipher): <input type="text" id="encrypted-msg-textbox"/></p>
         <p><input type="button" value="Decrypt" onclick="decrypt()"/></p>
